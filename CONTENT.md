@@ -141,6 +141,10 @@ We will create CAP Application for a Bookstore from the SAP Tutorials. It consis
     1. Run `cds add mta --force` to create an updated `mta.yaml` file for your application.
     1. Excute `mbt build -t ./` to build your Multi-Target Application
 
+### Adding Authentication & Authorization
+
+https://blogs.sap.com/2020/03/16/understanding-security-approaches-in-sap-cap-using-xsuaa-in-node.js-flavor-and-mta./
+
 ## SAP Fiori and SAPUI5
 
 #### Where can I find information, help and tutorials?

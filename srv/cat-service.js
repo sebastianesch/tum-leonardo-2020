@@ -1,4 +1,5 @@
 const cds = require('@sap/cds')
+const log = require('cf-nodejs-logging-support')
 
 module.exports = async function (){
 
@@ -15,7 +16,10 @@ module.exports = async function (){
   })
 
   // Add some discount for overstocked books
-  this.after ('READ','Books', each => {
-    if (each.stock > 111)  each.title += ` -- 11% discount!`
-  })
+  this.after ('READ','Books', each => { 
+        if (each.stock > 111) {
+            log.info('Stock over 111 - adding discount')
+            each.title += ` -- 11% discount!` 
+        }
+    })
 }

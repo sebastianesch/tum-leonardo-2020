@@ -1,25 +1,40 @@
 {
-  "name": "bookstore",
-  "version": "1.0.0",
-  "description": "A simple CAP project.",
-  "repository": "<Add your repository here>",
-  "license": "UNLICENSED",
-  "private": true,
-  "dependencies": {
-    "@sap/cds": "^3",
-    "@sap/cds-odata-v2-adapter-proxy": "^1.4.26",
-    "@sap/hana-client": "^2.4.177",
-    "cf-nodejs-logging-support": "^6.1.3",
-    "express": "^4"
-  },
-  "scripts": {
-    "start": "npx cds run"
-  },
-  "cds": {
-    "requires": {
-      "db": {
-        "kind": "hana"
-      }
+    "name": "bookstore",
+    "version": "1.0.0",
+    "description": "A simple CAP project.",
+    "repository": "<Add your repository here>",
+    "license": "UNLICENSED",
+    "private": true,
+    "dependencies": {
+        "@sap/audit-logging": "^3.1.0",
+        "@sap/cds": "^3",
+        "@sap/cds-odata-v2-adapter-proxy": "^1.4.26",
+        "@sap/hana-client": "^2.4.177",
+        "@sap/xsenv": "^2.2.0",
+        "@sap/xssec": "^2.2.5",
+        "cf-nodejs-logging-support": "^6.1.3",
+        "express": "^4",
+        "passport": "^0.4.1"
+    },
+    "scripts": {
+        "start": "npx cds run"
+    },
+    "cds": {
+        "requires": {
+            "db": {
+                "kind": "hana"
+            },
+            "uaa": {
+                "kind": "xsuaa"
+            }
+        },
+        "auth": {
+            "passport": {
+                "strategy": "JWT"
+            }
+        }
+    },
+    "devDependencies": {
+        "sqlite3": "^4.1.1"
     }
-  }
 }

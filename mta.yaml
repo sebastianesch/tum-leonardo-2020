@@ -16,6 +16,23 @@ build-parameters:
       - npx cds build\/all
 
 modules:
+ - name: bookstore-app-router
+   type: nodejs
+   path: app
+   build-parameters:
+     ignore: ["node_modules/"]    
+   parameters:
+      disk-quota: 256M
+      memory: 256M
+   requires:
+     - name: bookstore-uaa
+     - name: srv-binding
+       group: destinations
+       properties:
+         forwardAuthToken: true
+         strictSSL: false
+         name: srv_api
+         url: ~{srv-url}
  # --------------------- SERVER MODULE ------------------------
  - name: bookstore-srv
  # ------------------------------------------------------------
@@ -26,6 +43,7 @@ modules:
    requires:
     # Resources extracted from CAP configuration
     - name: bookstore-db
+    - name: bookstore-uaa
    provides:
     - name: srv-binding      # required by consumers of CAP services (e.g. approuter)
       properties:
@@ -41,6 +59,7 @@ modules:
    requires:
     # 'hana' and 'xsuaa' resources extracted from CAP configuration
     - name: bookstore-db
+    - name: bookstore-uaa
 
 
 resources:
@@ -56,3 +75,11 @@ resources:
    properties:
      hdi-service-name: ${service-name}
 
+# ------------------------------------------------------------
+ - name: bookstore-uaa
+# ------------------------------------------------------------
+   type: org.cloudfoundry.managed-service
+   parameters:
+     service: xsuaa
+     service-plan: application 
+     path: xs-security.json 
