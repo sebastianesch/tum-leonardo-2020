@@ -111,9 +111,27 @@ You can manage the different capabilities and services SAP offers via `Entitleme
 
 ### Create a Business Application
 
-We will create CAP Application for a Bookstore from the SAP Tutorials. It consists of:
-- The `db` module, that contains the Data Model and reference data for import
-- The `srv` module, that contains the Service Definitions
+We use the Cloud Application Programming Model (CAP) for our Application.
+
+See https://cap.cloud.sap/docs/
+
+We will create CAP Application for a Bookstore from the SAP Tutorials for SAP Cloud Application Programming Model. It consists of:
+- The `db` module, which contains the Data Model and reference data for import
+- The `srv` module, which contains the Service Definitions
+- The `app` module, which contains the App Router to handle authentication
+
+User Interfaces will be covered later, at the moment, the focus is on Database and OData APIs.
+
+1. Create the data model in the `db` module
+1. Create the service model in the `srv` module
+1. Create custom logic in the serivce module
+
+CAP supports OData v4 out of the box. In order to use Fiori Elements, we add an OData v2 Proxy and some logging to the application.
+
+1. Add the `server.js` file to ther `srv` module
+1. In the file, we also add the logging middleware to Express
+
+https://expressjs.com/
 
 ### Exercise 3 - Start your Business Application
 
@@ -141,10 +159,6 @@ We will create CAP Application for a Bookstore from the SAP Tutorials. It consis
     1. Run `cds add mta --force` to create an updated `mta.yaml` file for your application.
     1. Excute `mbt build -t ./` to build your Multi-Target Application
 
-### Adding Authentication & Authorization
-
-https://blogs.sap.com/2020/03/16/understanding-security-approaches-in-sap-cap-using-xsuaa-in-node.js-flavor-and-mta./
-
 ## SAP Fiori and SAPUI5
 
 #### Where can I find information, help and tutorials?
@@ -165,4 +179,33 @@ In addition to the links in the Cloud Platform section:
 
 #### How do I setup my development environment
 
-same as above
+We use SAP Web IDE in the Neo Environment.
+
+Our backend is located at https://ib-monster-srv.cfapps.eu10.hana.ondemand.com/odata/v2/.
+
+Navigate to your Neo Subaccount and create a destination to the backend:
+
+Name: monsterhunterapi
+Type: HTTP
+URL: https://ib-monster-srv.cfapps.eu10.hana.ondemand.com/
+Proxy Type: Internet
+Authentication: NoAuthentication
+
+Additional Properties:
+WebIDEEnabled: True
+WebIDEUsage: odata_gen
+
+Open SAP Web IDE and clone the other repository https://github.com/sebastianesch/tum-leonardo-2020-ui
+
+There are two SAPUI5 Apps: monsterhunter-monsterapp and monsterhunter-questapp.
+
+The monsterapp is a Fiori Elements App - it's a generic App where all information about fields, their relationship, order, etc. is derived from metadata provided by the backend.
+
+The questapp is a regular SAPUI5 Master-Detail App.
+
+The portal module contains the Fiori Launchpad, that provides the entry point to the user, when there are multiple apps.
+
+The approuter provides authentication and single endpoint for the user.
+
+The ui-deployer is responsible for storing the apps from the MTA application in the HTML5 Repository on deployment.
+
